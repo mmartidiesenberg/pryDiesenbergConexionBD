@@ -20,7 +20,18 @@ namespace pryDiesenbergConexionBD
         private void Form1_Load(object sender, EventArgs e)
         {
             ClassConexionBD objConectarBD = new ClassConexionBD();
-            objConectarBD.ConectarBD();
+
+            try
+            {
+                objConectarBD.ConectarBD();
+                lblEstadoConexion1.Text = "Base Conectada";
+                lblEstadoConexion1.BackColor = Color.Green;
+            }
+            catch (Exception)
+            {
+                lblEstadoConexion1.Text = "Sin Conexión";
+                lblEstadoConexion1.BackColor= Color.Red;
+            }
         }
     }
 }
