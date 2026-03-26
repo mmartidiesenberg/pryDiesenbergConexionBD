@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace pryDiesenbergConexionBD
 {
     public partial class frmPrincipal : Form
     {
+        private ClassConexionBD objConectarBD = new ClassConexionBD();
         public frmPrincipal()
         {
             InitializeComponent();
@@ -26,11 +28,15 @@ namespace pryDiesenbergConexionBD
                 objConectarBD.ConectarBD();
                 lblEstadoConexion1.Text = "Base Conectada";
                 lblEstadoConexion1.BackColor = Color.Green;
+
+                // Cargar datos de personajes en el DataGridView
+                DataTable dt = objConectarBD.CargarPersonajes();
+                dgvDatos.DataSource = dt;
             }
             catch (Exception)
             {
                 lblEstadoConexion1.Text = "Sin Conexión";
-                lblEstadoConexion1.BackColor= Color.Red;
+                lblEstadoConexion1.BackColor = Color.Red;
             }
         }
     }
