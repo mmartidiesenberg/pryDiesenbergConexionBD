@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-using System.Data.OleDb;
 using System.Windows.Forms;
-using System.Data;
 
 
 namespace pryDiesenbergConexionBD
@@ -15,13 +14,18 @@ namespace pryDiesenbergConexionBD
     internal class ClassConexionBD
     {
         OleDbConnection conn;
-        
+
         public void ConectarBD()
         {
-            conn = new OleDbConnection();
+            string relativePath = Path.Combine(Application.StartupPath, "..", "..", "BaseDatos", "baseJuegoRPG.accdb");
+            string dbPath = Path.GetFullPath(relativePath);
 
-            conn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Application.StartupPath + "\\..\\..\\BaseDatos\\baseJuegoRPG.accdb";
+            if (!File.Exists(dbPath))
+            {
+                throw new FileNotFoundException("No se encontró la base de datos:", dbPath);
+            }
 
+            conn = new OleDbConnection($"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath};");
             conn.Open();
         }
 
@@ -32,21 +36,24 @@ namespace pryDiesenbergConexionBD
 
         public DataTable CargarPersonajes()
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
 
             try
             {
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = conn;
-                cmd.CommandType = CommandType.TableDirect;
-                cmd.CommandText = "Personaje";
+                if (conn == null || conn.State != ConnectionState.Open)
+                {
+                    ConectarBD();
+                }
 
-                OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
-                adapter.Fill(dt);
+                using (var cmd = new OleDbCommand("SELECT * FROM Personaje", conn))
+                using (var adapter = new OleDbDataAdapter(cmd))
+                {
+                    adapter.Fill(dt);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar personajes: " + ex.Message);
+                MessageBox.Show("Error al cargar personajes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return dt;
