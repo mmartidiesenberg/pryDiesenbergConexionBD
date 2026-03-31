@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.lblMail = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.mskPassword = new System.Windows.Forms.MaskedTextBox();
@@ -92,6 +93,7 @@
             this.Controls.Add(this.mskPassword);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblMail);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio de Sesión";
