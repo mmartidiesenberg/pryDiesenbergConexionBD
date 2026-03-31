@@ -124,8 +124,13 @@ namespace pryDiesenbergConexionBD
                 catch { /* Ignorar errores de cierre */ }
             }
         }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
-
+//en .conn lo cambie por ObtenerConexion() porque sino no funcionaba.
 
 
