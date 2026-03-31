@@ -61,8 +61,10 @@
             this.mskPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mskPassword.Location = new System.Drawing.Point(256, 206);
             this.mskPassword.Name = "mskPassword";
+            this.mskPassword.PasswordChar = '*';
             this.mskPassword.Size = new System.Drawing.Size(100, 24);
             this.mskPassword.TabIndex = 1;
+            this.mskPassword.UseSystemPasswordChar = true;
             // 
             // mskMail
             // 

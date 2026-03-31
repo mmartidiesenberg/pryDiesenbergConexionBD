@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="claseUsuarios.cs" />
     <Compile Include="ClassConexionBD.cs" />
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
