@@ -21,23 +21,40 @@ namespace pryDiesenbergConexionBD
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ClassConexionBD objConectarBD = new ClassConexionBD();
-
             try
             {
                 objConectarBD.ConectarBD();
                 lblEstadoConexion1.Text = "Base Conectada";
                 lblEstadoConexion1.BackColor = Color.Green;
 
-                // Cargar datos de personajes en el DataGridView
-                DataTable dt = objConectarBD.CargarPersonajes();
-                dgvDatos.DataSource = dt;
+                CargarDatos();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                lblEstadoConexion1.Text = "Sin Conexión";
-                lblEstadoConexion1.BackColor = Color.Red;
+                lblEstadoConexion.Text = "Sin Conexión";
+                lblEstadoConexion.BackColor = Color.Red;
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void CargarDatos()
+        {
+            try
+            {
+                string sql = "SELECT * FROM Personaje";
+                using (OleDbDataAdapter adapter = new OleDbDataAdapter(sql, objConectarBD.ObtenerConexion()))
+                {
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvDatos.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
+
